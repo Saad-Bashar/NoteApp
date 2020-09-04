@@ -10,6 +10,7 @@ import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { firebase } from "./src/firebase/config";
+import FlashMessage from "react-native-flash-message";
 
 const Stack = createStackNavigator();
 
@@ -35,7 +36,9 @@ export default function App() {
         <Stack.Navigator>
           {user ? (
             <>
-              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Home" options={{ headerShown: false }}>
+                {(props) => <Home {...props} extraData={user} />}
+              </Stack.Screen>
               <Stack.Screen name="Create" component={Create} />
               <Stack.Screen name="Update" component={Update} />
             </>
@@ -50,6 +53,7 @@ export default function App() {
             </>
           )}
         </Stack.Navigator>
+        <FlashMessage position="top" />
       </SafeAreaView>
     </NavigationContainer>
   );
